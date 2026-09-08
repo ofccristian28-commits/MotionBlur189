@@ -1,0 +1,33 @@
+name: Build Motion Blur
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '4.10.3'
+
+      - name: Compilar mod
+        run: gradle build --no-daemon
+
+      - name: Enviar JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: MotionBlur189
+          path: build/libs/*.jar
