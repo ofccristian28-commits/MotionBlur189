@@ -27,9 +27,10 @@ public class MotionBlurMod {
     public static final String VERSION = "1.2";
 
     private static final int HISTORY_COUNT = 3;
-    private final Minecraft mc = Minecraft.getMinecraft();
+    private final Minecraft mc = Minecraft.func_71410_x();
 
     private KeyBinding toggleKey;
+    private KeyBinding menuKey;
     private boolean enabled = true;
     private int strength = 65;
 
@@ -46,16 +47,26 @@ public class MotionBlurMod {
                 Keyboard.KEY_F11,
                 "Motion Blur"
         );
-
         ClientRegistry.registerKeyBinding(toggleKey);
+
+        menuKey = new KeyBinding(
+                "Motion Blur: Open Menu",
+                Keyboard.KEY_RSHIFT,
+                "Motion Blur"
+        );
+        ClientRegistry.registerKeyBinding(menuKey);
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
     public void onKey(InputEvent.KeyInputEvent event) {
-        if (toggleKey != null && toggleKey.isPressed()) {
+        if (toggleKey != null && toggleKey.func_151468_f()) {
             enabled = !enabled;
             historyReady = false;
+        }
+        if (menuKey != null && menuKey.func_151468_f()) {
+            mc.displayGuiScreen(new MotionBlurGui(this));
         }
     }
 
@@ -65,16 +76,16 @@ public class MotionBlurMod {
             return;
         }
 
-        if (!enabled || mc.gameSettings.showDebugInfo) {
+        if (!enabled || mc.field_71474_y.field_74330_P) {
             return;
         }
 
-        if (mc.currentScreen != null || mc.theWorld == null) {
+        if (mc.field_71462_r != null || mc.field_71441_e == null) {
             return;
         }
 
-        int width = mc.displayWidth;
-        int height = mc.displayHeight;
+        int width = mc.field_71443_c;
+        int height = mc.field_71440_d;
 
         if (width <= 0 || height <= 0) {
             return;
@@ -121,7 +132,6 @@ public class MotionBlurMod {
                     GL11.GL_LINEAR
             );
 
-            // Forge 1.8.9/LWJGL 2 exposes this constant through GL12.
             GL11.glTexParameteri(
                     GL11.GL_TEXTURE_2D,
                     GL11.GL_TEXTURE_WRAP_S,
@@ -255,7 +265,12 @@ public class MotionBlurMod {
         return enabled;
     }
 
+    public void setEnabled(boolean value) {
+        this.enabled = value;
+        this.historyReady = false;
+    }
+
     public int getStrength() {
         return strength;
     }
-}
+    }
