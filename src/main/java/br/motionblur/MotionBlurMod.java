@@ -43,7 +43,7 @@ public class MotionBlurMod {
     public void init(FMLInitializationEvent event) {
         toggleKey = new KeyBinding(
                 "Motion Blur: Toggle",
-                Keyboard.KEY_F6,
+                Keyboard.KEY_F11,
                 "Motion Blur"
         );
 
