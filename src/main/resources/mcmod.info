@@ -1,17 +1,11 @@
 [
   {
-    "modid": "motionblur189",
-    "name": "Motion Blur 1.8.9",
-    "description": "Client-side motion blur effect for Minecraft 1.8.9.",
+    "modid": "vapevlite",
+    "name": "VapeVlite",
+    "description": "Independent Minecraft 1.8.9 client with a compact combat GUI.",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "",
-    "updateUrl": "",
-    "authorList": ["MotionBlur189"],
-    "credits": "",
-    "logoFile": "",
-    "screenshots": [],
+    "authorList": ["Cris"],
     "dependencies": []
   }
 ]
-
